@@ -12,8 +12,9 @@ mongoose
     console.log(err);
 })
 
-app.get("/", (req, res) => {
+app.get("/api/test", (req, res) => {
     res.send("this is only a test")
+    console.log("test is successful")
 })
 
 app.listen(process.env.PORT || 5000, () => {
