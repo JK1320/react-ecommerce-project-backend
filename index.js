@@ -13,8 +13,8 @@ mongoose
     console.log(err);
 })
 
-
-app.use("/api/user", userRoute);
+app.use(express.json()); // to post json file from frontend need this 
+app.use("/api/users", userRoute);
 
 
 app.listen(process.env.PORT || 5000, () => {
