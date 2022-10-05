@@ -6,3 +6,5 @@ npm i express mongoose dotenv nodemon
 
 ### models folder for database schemas for different pages
 ### routes folder for routes => CRUD => create, read, update, delete:    'GET, POST, PUT, DELETE'
+##### for password authentication 
+=>   cryptoJS
