@@ -30,3 +30,5 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the cli
 
 ==================================
 
+#### add JWT (json web token) to make app more secure by verifying users, provide json web token after login process
+npm i jsonwebtoken
