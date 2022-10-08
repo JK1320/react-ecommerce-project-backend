@@ -5,6 +5,7 @@ const CryptoJS = require("crypto-js");
 
 // REGISTER
 router.post("/register", async(req, res) => {
+    
 // if(!req.body){
 //     res.status(400).json("please fill in all the details");
 // };
