@@ -15,3 +15,5 @@ const verifyToken = (req, res, next) => {
         return res.status(401).json("You are not authorized!");
     }
 };
+
+module.exports = {verifyToken};
