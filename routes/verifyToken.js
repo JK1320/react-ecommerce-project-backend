@@ -27,4 +27,14 @@ const verifyTokenAuthorization = (req, res, next) => {
     })
 };
 
-module.exports = { verifyToken, verifyTokenAuthorization };
+const verifyTokenAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.isAdmin) {
+      next();
+    } else {
+      res.status(403).json("You are not authorized");
+    }
+  });
+};
+
+module.exports = { verifyToken, verifyTokenAuthorization, verifyTokenAdmin };
