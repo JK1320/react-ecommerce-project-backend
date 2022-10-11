@@ -32,7 +32,7 @@ router.delete("/:id", verifyTokenAndAuthorization, async(req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
-})
+});
 
 //Get user route
 router.get("/find/:id", verifyTokenAndAdmin, async(req, res) => {
@@ -44,6 +44,18 @@ router.get("/find/:id", verifyTokenAndAdmin, async(req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
-})
+});
+
+//Get all users route
+router.get("/", verifyTokenAndAdmin, async(req, res) => {
+    const query = req.query.new;
+    try {
+        const users = query ? await User.find().sort({_id: -1}).limit(1) : await User.find();
+
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 module.exports = router;
