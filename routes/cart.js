@@ -1,11 +1,13 @@
-const CryptoJS = require("crypto-js");
-const Product = require("../models/Product");
+//const CryptoJS = require("crypto-js");
+const Cart = require("../models/Cart");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
 } = require("./verifyToken");
 const router = require("express").Router();
+
+
 
 //CREATE
 router.post("/", verifyToken, async(req, res) => {
@@ -50,9 +52,9 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 //Get user Cart route with ID
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
   try {
-    const Cart = await Cart.findOne({userId: req.params.userId});
+    const cart = await Cart.findOne({userId: req.params.userId});
 
-    res.status(200).json(Cart);
+    res.status(200).json(cart);
   } catch (error) {
     res.status(500).json(error);
   }
