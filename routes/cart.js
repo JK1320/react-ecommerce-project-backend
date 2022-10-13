@@ -37,6 +37,16 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
+//Delete Product route
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    await Cart.findByIdAndDelete(req.params.id);
+    res.status(200).json("Cart has been deleted...");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 
 
 module.exports = router;
