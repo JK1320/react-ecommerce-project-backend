@@ -19,7 +19,6 @@ router.post("/", verifyTokenAndAdmin, async(req, res) => {
     }
 })
 
-
 // Update Product route
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 
@@ -38,7 +37,6 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-
 //Delete Product route
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
@@ -49,6 +47,38 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+//Get Product route
+router.get("/find/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
 
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//Get all Products route
+router.get("/", async (req, res) => {
+  const qNew = req.query.new;
+  const qCategory = req.query.category;
+  try {
+   let products;
+   if(qNew){
+    products = await Product.find().sort({createdAt: -1}).limit(1);
+   } else if(qCategory) {
+    products = await Product.find({categories: {
+        $in: [qCategory],
+    },
+});
+   } else {
+    products = await Product.find();
+   }
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 module.exports = router;
