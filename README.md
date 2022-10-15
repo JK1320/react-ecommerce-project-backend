@@ -34,3 +34,7 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the cli
 npm i jsonwebtoken
 
 #### when checked on postman => updating user route => add under Header: key: token, value: Bearer "token here" 
+
+#### Stripe for payment service
+=> create account @ stripe.com
+=> npm i stripe
