@@ -1,4 +1,3 @@
-//const CryptoJS = require("crypto-js");
 const Order = require("../models/Order");
 const {
   verifyToken,
@@ -6,6 +5,7 @@ const {
   verifyTokenAndAdmin,
 } = require("./verifyToken");
 const router = require("express").Router();
+
 
 //CREATE
 router.post("/", verifyToken, async (req, res) => {
@@ -19,10 +19,11 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
+
 // Update Order route
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
-    const updatedOder = await Order.findByIdAndUpdate(
+    const updatedOrder = await Order.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
@@ -35,6 +36,7 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 
 //Delete Order route
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
@@ -66,5 +68,34 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+// Get Monthly income
+router.get("/income", verifyTokenAndAdmin, async (req, res) => {
+  const date = new Date();
+  const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
+  const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
+
+  try {
+    const income = await Order.aggregate([
+      { $match: { createdAt: { $gte: previousMonth } } },
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+          sales: "$amount",
+        },
+      },
+      {
+        $group: {
+          _id: "$month",
+          total: { $sum: "$sales" },
+        },
+      },
+    ]);
+    res.status(200).json(income);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 
 module.exports = router;
